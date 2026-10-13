@@ -1,0 +1,74 @@
+syntax = "proto3";
+
+package takasho.schema.fes.player_api;
+
+import "takasho/schema/fes/resource/published_photo/v1.proto";
+
+message PublishedPhotoPublishV1 {
+  message Request {
+    repeated string photo_ids = 1;
+    takasho.schema.fes.resource.published_photo.v1.PrivacyType privacy_type = 2;
+  }
+
+  message Response {
+    repeated takasho.schema.fes.resource.published_photo.v1.PublishedPhoto photos = 1;
+  }
+}
+
+message PublishedPhotoDeleteV1 {
+  message Request {
+    repeated string photo_ids = 1;
+  }
+
+  message Response {
+    repeated string deleted_photo_ids = 1;
+  }
+}
+
+message PublishedPhotoGetVarietyV1 {
+  message Request {
+    int64 num_friends_photos = 2;
+    int64 num_club_photos = 3;
+    int64 num_latest_photos = 4;
+    int64 num_latest_first_photos = 5;
+    int64 num_latest_liked_photos = 6;
+    int64 num_random_photos = 7;
+  }
+
+  message Response {
+    repeated takasho.schema.fes.resource.published_photo.v1.PublishedPhoto friends_photos = 2;
+    repeated takasho.schema.fes.resource.published_photo.v1.PublishedPhoto club_photos = 3;
+    repeated takasho.schema.fes.resource.published_photo.v1.PublishedPhoto latest_photos = 4;
+    repeated takasho.schema.fes.resource.published_photo.v1.PublishedPhoto latest_first_photos = 5;
+    repeated takasho.schema.fes.resource.published_photo.v1.PublishedPhoto latest_liked_photos = 6;
+    repeated takasho.schema.fes.resource.published_photo.v1.PublishedPhoto random_photos = 7;
+  }
+}
+
+message PublishedPhotoGetByPlayerIDV1 {
+  message Request {
+    string player_id = 1;
+  }
+
+  message Response {
+    repeated takasho.schema.fes.resource.published_photo.v1.PublishedPhoto photos = 1;
+  }
+}
+
+message PublishedPhotoGetLikedV1 {
+  message Request {
+    string player_id = 1;
+  }
+
+  message Response {
+    repeated takasho.schema.fes.resource.published_photo.v1.PublishedPhoto photos = 1;
+  }
+}
+
+service PublishedPhoto {
+  rpc PublishV1(PublishedPhotoPublishV1.Request) returns (PublishedPhotoPublishV1.Response) {}
+  rpc DeleteV1(PublishedPhotoDeleteV1.Request) returns (PublishedPhotoDeleteV1.Response) {}
+  rpc GetVarietyV1(PublishedPhotoGetVarietyV1.Request) returns (PublishedPhotoGetVarietyV1.Response) {}
+  rpc GetByPlayerIDV1(PublishedPhotoGetByPlayerIDV1.Request) returns (PublishedPhotoGetByPlayerIDV1.Response) {}
+  rpc GetLikedV1(PublishedPhotoGetLikedV1.Request) returns (PublishedPhotoGetLikedV1.Response) {}
+}

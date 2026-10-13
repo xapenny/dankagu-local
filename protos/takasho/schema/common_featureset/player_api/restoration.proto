@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package takasho.schema.common_featureset.player_api;
+
+message RestorationValidateBannedWordsV1 {
+  message Request {
+    repeated string language_codes = 1;
+    string word = 2;
+  }
+
+  message Response {
+    bool contains_banned_word = 1;
+    string word = 2;
+  }
+}
+
+service Restoration {
+  rpc ValidateBannedWordsV1(RestorationValidateBannedWordsV1.Request) returns (RestorationValidateBannedWordsV1.Response) {}
+}

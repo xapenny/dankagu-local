@@ -1,0 +1,56 @@
+syntax = "proto3";
+
+package takasho.schema.fes.player_api;
+
+import "google/protobuf/timestamp.proto";
+import "takasho/schema/fes/resource/my_album/v1.proto";
+
+message MyAlbumPrepareV1 {
+  message Request {
+    repeated string character_ids = 1;
+    google.protobuf.Timestamp created_at = 2;
+    bytes content_value = 3;
+    string category = 4;
+  }
+
+  message Response {
+    takasho.schema.fes.resource.my_album.v1.AlbumPhoto photo = 1;
+    string signed_url_for_origin = 2;
+    string signed_url_for_thumbnail = 3;
+  }
+}
+
+message MyAlbumNotifyUploadedV1 {
+  message Request {
+    string photo_id = 1;
+  }
+
+  message Response {
+    string photo_id = 1;
+  }
+}
+
+message MyAlbumDeleteV1 {
+  message Request {
+    repeated string photo_ids = 1;
+  }
+
+  message Response {
+    repeated string deleted_photo_ids = 1;
+  }
+}
+
+message MyAlbumGetV1 {
+  message Request {}
+
+  message Response {
+    repeated takasho.schema.fes.resource.my_album.v1.AlbumPhoto photos = 1;
+  }
+}
+
+service MyAlbum {
+  rpc PrepareV1(MyAlbumPrepareV1.Request) returns (MyAlbumPrepareV1.Response) {}
+  rpc NotifyUploadedV1(MyAlbumNotifyUploadedV1.Request) returns (MyAlbumNotifyUploadedV1.Response) {}
+  rpc DeleteV1(MyAlbumDeleteV1.Request) returns (MyAlbumDeleteV1.Response) {}
+  rpc GetV1(MyAlbumGetV1.Request) returns (MyAlbumGetV1.Response) {}
+}
