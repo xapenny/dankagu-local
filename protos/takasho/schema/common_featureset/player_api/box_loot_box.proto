@@ -1,0 +1,69 @@
+syntax = "proto3";
+
+package takasho.schema.common_featureset.player_api;
+
+import "takasho/schema/common_featureset/resource/box_loot_box/v1.proto";
+import "takasho/schema/common_featureset/resource/consume_resource_set/v1.proto";
+import "takasho/schema/common_featureset/resource/master_data/box_loot_box.proto";
+import "takasho/schema/common_featureset/resource/player_event_log/v1.proto";
+import "takasho/schema/common_featureset/resource/player_inventory/v1.proto";
+import "takasho/schema/common_featureset/resource/wallet/v1.proto";
+
+message BoxLootBoxGetAvailableV1 {
+  message Request {
+    string page_token = 1;
+    uint64 max_results = 2;
+  }
+  message Response {
+    repeated takasho.schema.common_featureset.resource.master_data.box_loot_box.BoxLootBoxProduct box_loot_box_products = 1;
+    string next_page_token = 2;
+    string prev_page_token = 3;
+  }
+}
+message BoxLootBoxGetDetailV1 {
+  message Request {
+    string box_loot_box_product_id = 1;
+  }
+  message Response {
+    takasho.schema.common_featureset.resource.master_data.box_loot_box.BoxLootBoxProduct box_loot_box_product = 1;
+    repeated takasho.schema.common_featureset.resource.box_loot_box.v1.BoxLootBoxContentWithPlayerRemainContent box_loot_box_contents = 2;
+    sint64 player_item_amount = 3;
+    sint64 player_box_reset_count = 4;
+  }
+}
+message BoxLootBoxPurchaseV1 {
+  message Request {
+    string box_loot_box_product_id = 1;
+    string transaction_id = 2;
+    int32 num = 3;
+    takasho.schema.common_featureset.resource.consume_resource_set.v1.ResourceType resource_type = 4;
+    repeated takasho.schema.common_featureset.resource.player_event_log.v1.PlayerEventLog player_event_logs = 5;
+  }
+    enum ResourceType {
+      VirtualCurrency = 0;
+      PlayerKeyValue = 1;
+    }
+  message Response {
+    string transaction_id = 1;
+    repeated takasho.schema.common_featureset.resource.master_data.box_loot_box.BoxLootBoxContent box_loot_box_contents = 2;
+    repeated takasho.schema.common_featureset.resource.player_inventory.v1.PlayerInventory player_inventories = 3;
+    repeated takasho.schema.common_featureset.resource.player_inventory.v1.PlayerInventory extra_player_inventories = 4;
+    int32 remain_num = 5;
+    bool is_reset = 6;
+    takasho.schema.common_featureset.resource.wallet.v1.Wallet wallet = 7;
+  }
+}
+message BoxLootBoxResetV1 {
+  message Request {
+    string box_loot_box_product_id = 1;
+    repeated takasho.schema.common_featureset.resource.player_event_log.v1.PlayerEventLog player_event_logs = 2;
+  }
+  message Response {
+  }
+}
+service BoxLootBox {
+  rpc GetAvailableV1(BoxLootBoxGetAvailableV1.Request) returns (BoxLootBoxGetAvailableV1.Response) {}
+  rpc GetDetailV1(BoxLootBoxGetDetailV1.Request) returns (BoxLootBoxGetDetailV1.Response) {}
+  rpc PurchaseV1(BoxLootBoxPurchaseV1.Request) returns (BoxLootBoxPurchaseV1.Response) {}
+  rpc ResetV1(BoxLootBoxResetV1.Request) returns (BoxLootBoxResetV1.Response) {}
+}

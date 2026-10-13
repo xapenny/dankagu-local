@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package takasho.schema.common_featureset.player_api;
+
+message OpinionGetUrlV1 {
+  message Request {
+  }
+  message Response {
+    string url = 1;
+  }
+}
+service Opinion {
+  rpc GetUrlV1(OpinionGetUrlV1.Request) returns (OpinionGetUrlV1.Response) {}
+}

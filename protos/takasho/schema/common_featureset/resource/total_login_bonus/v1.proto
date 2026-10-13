@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package takasho.schema.common_featureset.resource.total_login_bonus.v1;
+
+import "takasho/schema/common_featureset/resource/player_inventory/v1.proto";
+
+message TotalLoginBonus {
+  string total_login_bonus_id = 1;
+  repeated TotalLoginBonusPrize prizes = 2;
+}
+
+message TotalLoginBonusPrize {
+  string total_login_bonus_id = 1;
+  string total_login_bonus_prize_id = 2;
+  sint64 total_login_days = 3;
+  takasho.schema.common_featureset.resource.player_inventory.v1.ItemType item_type = 4;
+  string schema_key = 5;
+  bytes value = 6;
+  string search_label = 7;
+  string system_resource_name = 8;
+  sint64 system_resource_num = 9;
+}

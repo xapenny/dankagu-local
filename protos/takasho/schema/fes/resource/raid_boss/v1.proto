@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+package takasho.schema.fes.resource.raid_boss.v1;
+
+import "takasho/schema/common_featureset/resource/ondemand_master/v2.proto";
+import "takasho/schema/fes/resource/player/v1.proto";
+
+message Boss {
+  string boss_id = 1;
+  Rarity rarity = 2;
+  uint64 level = 3;
+  uint64 max_hp = 4;
+  bytes value = 5;
+  enum Rarity {
+    Normal = 0;
+    Rare = 1;
+  }
+}
+
+message PlayerTotalDamage {
+  string player_id = 1;
+  string nickname = 2;
+  UserType user_type = 3;
+  repeated takasho.schema.common_featureset.resource.ondemand_master.v2.Entry player_storage_entries = 4;
+  uint64 total_damages = 5;
+  uint64 last_attacked_at = 6;
+  enum UserType {
+    Player = 0;
+    Bot = 1;
+  }
+}
+
+message RaidBoss {
+  string raid_boss_id = 1;
+  Boss boss = 2;
+  uint64 hp = 3;
+  uint64 shared_count = 4;
+  uint64 encountered_at = 5;
+  uint64 disappeared_at = 6;
+  uint64 destructed_at = 7;
+  uint64 cleansed_at = 8;
+  repeated PlayerTotalDamage top_ranking_players = 9;
+  repeated PlayerTotalDamage recently_attacked_players = 10;
+  uint64 attackers_count = 11;
+  takasho.schema.fes.resource.player.v1.Player encounterd_player = 12;
+}

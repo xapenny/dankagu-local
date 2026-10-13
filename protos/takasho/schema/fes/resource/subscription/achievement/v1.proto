@@ -1,0 +1,7 @@
+syntax = "proto3";
+
+package takasho.schema.fes.resource.subscription.achievement.v1;
+
+message AchievementCriterion {
+  string category = 1;
+}

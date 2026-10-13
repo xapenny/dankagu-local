@@ -1,0 +1,75 @@
+syntax = "proto3";
+
+package takasho.schema.common_featureset.player_api;
+
+import "takasho/schema/common_featureset/resource/player_event_log/v1.proto";
+import "takasho/schema/common_featureset/resource/player_inventory/v1.proto";
+import "takasho/schema/common_featureset/resource/player_ranking/v1.proto";
+
+message PlayerRankingGetAvailableV1 {
+  message Request {
+    string page_token = 1;
+    uint64 max_results = 2;
+  }
+  message Response {
+    repeated takasho.schema.common_featureset.resource.player_ranking.v1.RankingMaster ranking_master = 1;
+    string next_page_token = 2;
+    string prev_page_token = 3;
+  }
+}
+message PlayerRankingGetRankingAroundMeV1 {
+  message Request {
+    string ranking_key = 1;
+    sint64 range = 2;
+  }
+  message Response {
+    repeated takasho.schema.common_featureset.resource.player_ranking.v1.PlayerRankInfo player_rankings = 1;
+  }
+}
+message PlayerRankingGetTopRankingV1 {
+  message Request {
+    string ranking_key = 1;
+    sint64 start = 2;
+    uint32 count = 3;
+  }
+  message Response {
+    repeated takasho.schema.common_featureset.resource.player_ranking.v1.PlayerRankInfo player_rankings = 1;
+  }
+}
+message PlayerRankingReceivePrizeV1 {
+  message Request {
+    string ranking_key = 1;
+    repeated takasho.schema.common_featureset.resource.player_event_log.v1.PlayerEventLog player_event_logs = 2;
+  }
+  message Response {
+    takasho.schema.common_featureset.resource.player_ranking.v1.PlayerRankInfo player_ranking = 1;
+    repeated takasho.schema.common_featureset.resource.player_inventory.v1.PlayerInventory inventories = 2;
+  }
+}
+message PlayerRankingRegisterV1 {
+  message Request {
+    string ranking_key = 1;
+    int64 score = 2;
+  }
+  message Response {
+  }
+}
+message PlayerRankingRegisterV2 {
+  message Request {
+    string ranking_key = 1;
+    sint64 current_score = 2;
+    sint64 delta_score = 3;
+    string transaction_id = 4;
+    repeated takasho.schema.common_featureset.resource.player_event_log.v1.PlayerEventLog player_event_logs = 5;
+  }
+  message Response {
+  }
+}
+service PlayerRanking {
+  rpc GetAvailableV1(PlayerRankingGetAvailableV1.Request) returns (PlayerRankingGetAvailableV1.Response) {}
+  rpc GetRankingAroundMeV1(PlayerRankingGetRankingAroundMeV1.Request) returns (PlayerRankingGetRankingAroundMeV1.Response) {}
+  rpc GetTopRankingV1(PlayerRankingGetTopRankingV1.Request) returns (PlayerRankingGetTopRankingV1.Response) {}
+  rpc ReceivePrizeV1(PlayerRankingReceivePrizeV1.Request) returns (PlayerRankingReceivePrizeV1.Response) {}
+  rpc RegisterV1(PlayerRankingRegisterV1.Request) returns (PlayerRankingRegisterV1.Response) {}
+  rpc RegisterV2(PlayerRankingRegisterV2.Request) returns (PlayerRankingRegisterV2.Response) {}
+}

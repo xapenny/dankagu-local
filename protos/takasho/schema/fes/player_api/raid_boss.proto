@@ -1,0 +1,72 @@
+syntax = "proto3";
+
+package takasho.schema.fes.player_api;
+
+import "takasho/schema/common_featureset/resource/player_event_log/v1.proto";
+import "takasho/schema/fes/resource/raid_boss/v1.proto";
+
+message RaidBossV1AttackV1 {
+  message Request {
+    string damage_history_id = 1;
+    string raid_boss_id = 2;
+    uint64 damage = 3;
+    repeated takasho.schema.common_featureset.resource.player_event_log.v1.PlayerEventLog player_event_logs = 4;
+  }
+  message Response {
+    takasho.schema.fes.resource.raid_boss.v1.RaidBoss raid_boss = 1;
+  }
+}
+message RaidBossV1CleanseV1 {
+  message Request {
+    string raid_boss_id = 1;
+    repeated takasho.schema.common_featureset.resource.player_event_log.v1.PlayerEventLog player_event_logs = 2;
+  }
+  message Response {
+    takasho.schema.fes.resource.raid_boss.v1.RaidBoss raid_boss = 1;
+  }
+}
+message RaidBossV1EncounterV1 {
+  message Request {
+    string raid_boss_id = 1;
+    repeated takasho.schema.common_featureset.resource.player_event_log.v1.PlayerEventLog player_event_logs = 2;
+  }
+  message Response {
+    takasho.schema.fes.resource.raid_boss.v1.RaidBoss raid_boss = 1;
+  }
+}
+message RaidBossV1GetBossListV1 {
+  message Request {
+    repeated string player_storage_keys = 1;
+    repeated takasho.schema.common_featureset.resource.player_event_log.v1.PlayerEventLog player_event_logs = 2;
+  }
+  message Response {
+    repeated takasho.schema.fes.resource.raid_boss.v1.RaidBoss raid_bosses = 1;
+  }
+}
+message RaidBossV1GetBossV1 {
+  message Request {
+    string raid_boss_id = 1;
+    repeated takasho.schema.common_featureset.resource.player_event_log.v1.PlayerEventLog player_event_logs = 2;
+  }
+  message Response {
+    takasho.schema.fes.resource.raid_boss.v1.RaidBoss raid_boss = 1;
+  }
+}
+message RaidBossV1ShareV1 {
+  message Request {
+    string raid_boss_id = 1;
+    string share_history_id = 2;
+    repeated takasho.schema.common_featureset.resource.player_event_log.v1.PlayerEventLog player_event_logs = 3;
+  }
+  message Response {
+    takasho.schema.fes.resource.raid_boss.v1.RaidBoss raid_boss = 1;
+  }
+}
+service RaidBoss {
+  rpc AttackV1(RaidBossV1AttackV1.Request) returns (RaidBossV1AttackV1.Response) {}
+  rpc CleanseV1(RaidBossV1CleanseV1.Request) returns (RaidBossV1CleanseV1.Response) {}
+  rpc EncounterV1(RaidBossV1EncounterV1.Request) returns (RaidBossV1EncounterV1.Response) {}
+  rpc GetBossListV1(RaidBossV1GetBossListV1.Request) returns (RaidBossV1GetBossListV1.Response) {}
+  rpc GetBossV1(RaidBossV1GetBossV1.Request) returns (RaidBossV1GetBossV1.Response) {}
+  rpc ShareV1(RaidBossV1ShareV1.Request) returns (RaidBossV1ShareV1.Response) {}
+}

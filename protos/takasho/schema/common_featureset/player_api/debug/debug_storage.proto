@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package takasho.schema.common_featureset.player_api.debug;
+
+import "takasho/schema/common_featureset/resource/ondemand_master/v2.proto";
+import "takasho/schema/common_featureset/resource/player_storage/v2.proto";
+
+message DebugStorageGetEntriesV1 {
+  message Request {
+    repeated takasho.schema.common_featureset.resource.player_storage.v2.Criterion criteria = 1;
+  }
+  message Response {
+    repeated takasho.schema.common_featureset.resource.ondemand_master.v2.Entry entries = 1;
+    string revision = 2;
+  }
+}
+message DebugStorageSetEntriesV1 {
+  message Request {
+    repeated takasho.schema.common_featureset.resource.ondemand_master.v2.Entry entries = 1;
+    string next_revision = 2;
+    string previous_revision = 3;
+  }
+  message Response {
+    repeated takasho.schema.common_featureset.resource.ondemand_master.v2.Entry entries = 1;
+    string revision = 2;
+  }
+}
+service DebugStorage {
+  rpc GetEntriesV1(DebugStorageGetEntriesV1.Request) returns (DebugStorageGetEntriesV1.Response) {}
+  rpc SetEntriesV1(DebugStorageSetEntriesV1.Request) returns (DebugStorageSetEntriesV1.Response) {}
+}

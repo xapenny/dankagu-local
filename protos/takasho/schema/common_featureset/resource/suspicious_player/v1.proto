@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package takasho.schema.common_featureset.resource.suspicious_player.v1;
+
+message SuspiciousPlayer {
+  string player_id = 1;
+  sint64 reason = 2;
+  string message = 3;
+}

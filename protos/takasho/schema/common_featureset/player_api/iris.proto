@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package takasho.schema.common_featureset.player_api;
+
+message IrisGetAuthenticateTokenV1 {
+  message Request {
+  }
+  message Response {
+    string token = 1;
+    int64 expired_at = 2;
+    string player_id = 3;
+    string app_id = 4;
+    string host = 5;
+    sint64 port = 6;
+  }
+}
+service Iris {
+  rpc GetAuthenticateTokenV1(IrisGetAuthenticateTokenV1.Request) returns (IrisGetAuthenticateTokenV1.Response) {}
+}

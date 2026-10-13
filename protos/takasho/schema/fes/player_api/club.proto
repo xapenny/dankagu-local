@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package takasho.schema.fes.player_api.club;
+
+import "takasho/schema/fes/resource/club/v1.proto";
+
+enum SearchOrderDirection {
+  Asc = 0;
+  Desc = 1;
+}
+
+message SearchResult {
+  takasho.schema.fes.resource.club.v1.Club club = 1;
+  sint64 member_count = 2;
+}

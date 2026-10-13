@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package takasho.schema.common_featureset.player_api;
+
+import "takasho/schema/common_featureset/resource/ondemand_master/v2.proto";
+import "takasho/schema/common_featureset/resource/player_storage/v2.proto";
+
+message PlayerEncryptPlayerIdV1 {
+  message Request {
+    string key = 1;
+  }
+  message Response {
+    string cipher_text = 1;
+  }
+}
+message PlayerSearchV1 {
+  message Request {
+    string player_short_id = 1;
+    repeated takasho.schema.common_featureset.resource.player_storage.v2.Criterion criteria = 2;
+  }
+  message Response {
+    string player_id = 1;
+    repeated takasho.schema.common_featureset.resource.ondemand_master.v2.Entry entries = 2;
+    string nickname = 3;
+  }
+}
+message PlayerSearchV2 {
+  message Request {
+    string player_id = 1;
+    repeated takasho.schema.common_featureset.resource.player_storage.v2.Criterion criteria = 2;
+  }
+  message Response {
+    string player_id = 1;
+    string player_short_id = 2;
+    string nickname = 3;
+    repeated takasho.schema.common_featureset.resource.ondemand_master.v2.Entry entries = 4;
+  }
+}
+service Player {
+  rpc EncryptPlayerIdV1(PlayerEncryptPlayerIdV1.Request) returns (PlayerEncryptPlayerIdV1.Response) {}
+  rpc SearchV1(PlayerSearchV1.Request) returns (PlayerSearchV1.Response) {}
+  rpc SearchV2(PlayerSearchV2.Request) returns (PlayerSearchV2.Response) {}
+}

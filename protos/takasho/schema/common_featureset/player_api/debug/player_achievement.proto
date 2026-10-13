@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package takasho.schema.common_featureset.player_api.debug;
+
+message PlayerAchievementDeleteV1 {
+  message Request {
+    repeated string achievement_ids = 1;
+  }
+  message Response {
+    repeated string delete_achievement_ids = 1;
+    repeated string achievement_ids = 2;
+  }
+}
+service PlayerAchievement {
+  rpc Delete(PlayerAchievementDeleteV1.Request) returns (PlayerAchievementDeleteV1.Response) {}
+}

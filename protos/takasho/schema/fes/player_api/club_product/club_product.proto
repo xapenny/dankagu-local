@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+package takasho.schema.fes.player_api.club_product;
+
+import "takasho/schema/common_featureset/resource/player_event_log/v1.proto";
+import "takasho/schema/common_featureset/resource/player_inventory/v1.proto";
+import "takasho/schema/fes/resource/club_achievement/v1.proto";
+import "takasho/schema/fes/resource/club_scalar/v1.proto";
+import "takasho/schema/fes/resource/club_storage/v1.proto";
+import "takasho/schema/fes/resource/master_data/club_product.proto";
+
+message ClubProductGetAvailable {
+  message Request {
+    takasho.schema.fes.resource.club_achievement.v1.Criteria criteria = 1;
+    takasho.schema.common_featureset.resource.player_inventory.v1.OrderField order_field = 2;
+    takasho.schema.common_featureset.resource.player_inventory.v1.OrderDirection order_direction = 3;
+    string page_token = 4;
+    uint64 max_results = 5;
+  }
+  message Response {
+    repeated takasho.schema.fes.resource.master_data.club_product.ClubProduct products = 1;
+    string next_page_token = 2;
+  }
+  enum OrderDirection {
+    Asc = 0;
+    Desc = 1;
+  }
+  enum OrderField {
+    UnknownFieild = 0;
+    ClubProductId = 1;
+    Name = 2;
+  }
+}
+message ClubProductPurchase {
+  message Request {
+    string club_product_id = 1;
+    string club_id = 2;
+    repeated takasho.schema.fes.resource.club_storage.v1.ClubStorageEntry entries = 3;
+    string prev_revision = 4;
+    string next_revision = 5;
+    string scalar_key = 6;
+    repeated takasho.schema.common_featureset.resource.player_event_log.v1.PlayerEventLog player_event_logs = 7;
+  }
+  message Response {
+    takasho.schema.fes.resource.club_scalar.v1.ClubScalar scalar = 1;
+    string revision = 2;
+  }
+}
+service ClubProduct {
+  rpc GetAvailable(ClubProductGetAvailable.Request) returns (ClubProductGetAvailable.Response) {}
+  rpc Purchase(ClubProductPurchase.Request) returns (ClubProductPurchase.Response) {}
+}

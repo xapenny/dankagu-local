@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package takasho.schema.common_featureset.player_api;
+
+message ServerVersionGetV1 {
+  message Request {
+  }
+  message Response {
+    string server_version = 1;
+  }
+}
+service ServerVersion {
+  rpc GetV1(ServerVersionGetV1.Request) returns (ServerVersionGetV1.Response) {}
+}

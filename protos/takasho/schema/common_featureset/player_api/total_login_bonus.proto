@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package takasho.schema.common_featureset.player_api;
+
+import "takasho/schema/common_featureset/resource/player_event_log/v1.proto";
+import "takasho/schema/common_featureset/resource/player_inventory/v1.proto";
+import "takasho/schema/common_featureset/resource/total_login_bonus/v1.proto";
+
+message TotalLoginBonusGetAvailableV1 {
+  message Request {
+  }
+  message Response {
+    repeated takasho.schema.common_featureset.resource.total_login_bonus.v1.TotalLoginBonus total_login_bonuses = 1;
+    sint64 total_login_days = 2;
+  }
+}
+message TotalLoginBonusGetAvailableV2 {
+  message Request {
+  }
+  message Response {
+    repeated Record records = 1;
+    sint64 total_login_days = 2;
+  }
+    message Record {
+      takasho.schema.common_featureset.resource.total_login_bonus.v1.TotalLoginBonus total_login_bonus = 1;
+      sint64 received_at = 2;
+    }
+}
+message TotalLoginBonusReceiveV1 {
+  message Request {
+    repeated takasho.schema.common_featureset.resource.player_event_log.v1.PlayerEventLog player_event_logs = 1;
+  }
+  message Response {
+    repeated takasho.schema.common_featureset.resource.total_login_bonus.v1.TotalLoginBonus total_login_bonuses = 1;
+    repeated takasho.schema.common_featureset.resource.player_inventory.v1.PlayerInventory player_inventories = 2;
+    sint64 total_login_days = 3;
+  }
+}
+service TotalLoginBonus {
+  rpc GetAvailableV1(TotalLoginBonusGetAvailableV1.Request) returns (TotalLoginBonusGetAvailableV1.Response) {}
+  rpc GetAvailableV2(TotalLoginBonusGetAvailableV2.Request) returns (TotalLoginBonusGetAvailableV2.Response) {}
+  rpc ReceiveV1(TotalLoginBonusReceiveV1.Request) returns (TotalLoginBonusReceiveV1.Response) {}
+}

@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package takasho.schema.common_featureset.player_api;
+
+import "takasho/schema/common_featureset/resource/suspicious_player/v1.proto";
+
+message SuspiciousPlayerSendV1 {
+  message Request {
+    repeated takasho.schema.common_featureset.resource.suspicious_player.v1.SuspiciousPlayer suspicious_players = 1;
+  }
+  message Response {
+  }
+}
+service SuspiciousPlayer {
+  rpc SendV1(SuspiciousPlayerSendV1.Request) returns (SuspiciousPlayerSendV1.Response) {}
+}

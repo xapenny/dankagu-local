@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package takasho.schema.fes.player_api.club_scalar;
+
+import "takasho/schema/fes/resource/club_scalar/v1.proto";
+
+message ClubScalarGet {
+  message Request {
+    string club_id = 1;
+    string key = 2;
+  }
+  message Response {
+    takasho.schema.fes.resource.club_scalar.v1.ClubScalar scalar = 1;
+  }
+}
+service ClubScalar {
+  rpc Get(ClubScalarGet.Request) returns (ClubScalarGet.Response) {}
+}

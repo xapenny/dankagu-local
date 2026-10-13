@@ -1,0 +1,94 @@
+syntax = "proto3";
+
+package takasho.schema.common_featureset.player_api;
+
+import "takasho/schema/common_featureset/resource/friend/v1.proto";
+import "takasho/schema/common_featureset/resource/player_event_log/v1.proto";
+import "takasho/schema/fes/resource/player/v1.proto";
+
+message FriendApproveRequestV1 {
+  message Request {
+    string player_id = 1;
+    bool approve = 2;
+    repeated takasho.schema.common_featureset.resource.player_event_log.v1.PlayerEventLog player_event_logs = 3;
+  }
+  message Response {
+    string player_id = 1;
+    int32 failure_reason = 3;  // client enum, wire-compatible varint
+  }
+    enum FailureReason {
+      NotFail = 0;
+      ReceiverHasNoFriendVacancy = 1;
+      SenderHasNoFriendVacancy = 2;
+      ReceiverNotAllowRequest = 3;
+    }
+}
+message FriendApproveRequestsV1 {
+  message Request {
+    repeated string player_ids = 1;
+    bool approve = 2;
+    repeated takasho.schema.common_featureset.resource.player_event_log.v1.PlayerEventLog player_event_logs = 3;
+  }
+  message Response {
+    repeated string player_ids = 1;
+    repeated Failure failures = 2;
+  }
+    message Failure {
+      string player_id = 1;
+      int32 failure_reason = 3;  // client enum, wire-compatible varint
+    }
+}
+message FriendGetListV1 {
+  message Request {
+    repeated string player_storage_keys = 1;
+    string page_token = 2;
+    uint64 max_results = 3;
+  }
+  message Response {
+    repeated takasho.schema.fes.resource.player.v1.Player friends = 1;
+    string next_page_token = 2;
+    string prev_page_token = 3;
+  }
+}
+message FriendGetReceivedRequestsListV1 {
+  message Request {
+    repeated string player_storage_keys = 1;
+    string page_token = 2;
+    uint64 max_results = 3;
+  }
+  message Response {
+    repeated takasho.schema.common_featureset.resource.friend.v1.ReceivedFriendRequest received_friend_requests = 1;
+    string next_page_token = 2;
+    string prev_page_token = 3;
+  }
+}
+message FriendSendRequestV1 {
+  message Request {
+    string receiver_id = 1;
+    string schema_key = 2;
+    bytes value = 3;
+    repeated takasho.schema.common_featureset.resource.player_event_log.v1.PlayerEventLog player_event_logs = 4;
+  }
+  message Response {
+    bool is_approved = 1;
+    string player_id = 2;
+    int32 failure_reason = 3;  // client enum, wire-compatible varint
+  }
+    enum FailureReason {
+      NotFail = 0;
+      SenderHasNoFriendVacancy = 1;
+      SenderHasNoSendFriendRequestVacancy = 2;
+      ReceiverHasNoReceiveFriendRequestVacancy = 5;
+      ReceiverNotAllowRequest = 6;
+      RerequestHasEnoughTime = 7;
+      ReceiverHasNoFriendVacancy = 8;
+      ReceiverIsBannedPlayer = 9;
+    }
+}
+service Friend {
+  rpc ApproveRequestV1(FriendApproveRequestV1.Request) returns (FriendApproveRequestV1.Response) {}
+  rpc ApproveRequestsV1(FriendApproveRequestsV1.Request) returns (FriendApproveRequestsV1.Response) {}
+  rpc GetListV1(FriendGetListV1.Request) returns (FriendGetListV1.Response) {}
+  rpc GetReceivedRequestsListV1(FriendGetReceivedRequestsListV1.Request) returns (FriendGetReceivedRequestsListV1.Response) {}
+  rpc SendRequestV1(FriendSendRequestV1.Request) returns (FriendSendRequestV1.Response) {}
+}

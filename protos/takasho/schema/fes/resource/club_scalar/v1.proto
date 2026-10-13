@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package takasho.schema.fes.resource.club_scalar.v1;
+
+message ClubScalar {
+  string club_id = 1;
+  string key = 2;
+  uint64 value = 3;
+}

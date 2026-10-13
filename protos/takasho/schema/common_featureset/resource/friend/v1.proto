@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package takasho.schema.common_featureset.resource.friend.v1;
+
+import "takasho/schema/fes/resource/player/v1.proto";
+
+message ReceivedFriendRequest {
+  takasho.schema.fes.resource.player.v1.Player from_player = 1;
+  sint64 sent_at = 2;
+  string schema_key = 3;
+  bytes value = 4;
+}

@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package takasho.schema.common_featureset.resource.zendesk;
+
+import "google/protobuf/timestamp.proto";
+
+message Attachment {
+  string id = 1;
+  string file_name = 2;
+  string content_url = 3;
+  string content_type = 4;
+  sint64 size = 5;
+  repeated Photo thumbnails = 6;
+  bool inline = 7;
+  bool deleted = 8;
+}
+
+message Comment {
+  string id = 1;
+  string type = 2;
+  sint64 request_id = 3;
+  string body = 4;
+  bool public = 7;
+  sint64 author_id = 8;
+  repeated Attachment attachments = 9;
+  google.protobuf.Timestamp created_at = 10;
+}
+
+message Photo {
+  string id = 1;
+  string file_name = 2;
+  string content_url = 3;
+  string content_type = 4;
+  sint64 size = 5;
+}

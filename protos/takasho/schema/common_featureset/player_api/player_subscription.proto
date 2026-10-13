@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package takasho.schema.common_featureset.player_api;
+
+message PlayerSubscriptionGetTotalPurchasedCountV1 {
+  message Request {
+    repeated string subscription_product_ids = 1;
+  }
+  message Response {
+    repeated Result results = 1;
+  }
+    message Result {
+      string subscription_product_id = 1;
+      sint64 purchased_count = 2;
+    }
+}
+service PlayerSubscription {
+  rpc GetTotalPurchasedCountV1(PlayerSubscriptionGetTotalPurchasedCountV1.Request) returns (PlayerSubscriptionGetTotalPurchasedCountV1.Response) {}
+}

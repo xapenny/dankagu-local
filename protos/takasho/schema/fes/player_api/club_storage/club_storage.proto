@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package takasho.schema.fes.player_api.club_storage;
+
+import "takasho/schema/common_featureset/resource/player_event_log/v1.proto";
+import "takasho/schema/common_featureset/resource/player_storage/v2.proto";
+import "takasho/schema/fes/resource/club_storage/v1.proto";
+
+message ClubStorageGetMulti {
+  message Request {
+    string club_id = 1;
+    repeated takasho.schema.common_featureset.resource.player_storage.v2.Criterion criteria = 2;
+  }
+  message Response {
+    string revision = 1;
+    repeated takasho.schema.fes.resource.club_storage.v1.ClubStorageEntry entries = 2;
+  }
+}
+message ClubStorageSetMulti {
+  message Request {
+    string club_id = 1;
+    string prev_revision = 2;
+    string next_revision = 3;
+    repeated takasho.schema.fes.resource.club_storage.v1.ClubStorageEntry entries = 4;
+    repeated takasho.schema.common_featureset.resource.player_event_log.v1.PlayerEventLog player_event_logs = 5;
+  }
+  message Response {
+    string revision = 1;
+    repeated takasho.schema.fes.resource.club_storage.v1.ClubStorageEntry entries = 2;
+  }
+}
+service ClubStorage {
+  rpc GetMulti(ClubStorageGetMulti.Request) returns (ClubStorageGetMulti.Response) {}
+  rpc SetMulti(ClubStorageSetMulti.Request) returns (ClubStorageSetMulti.Response) {}
+}

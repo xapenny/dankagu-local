@@ -1,0 +1,73 @@
+syntax = "proto3";
+
+package takasho.schema.fes.player_api.club_player_invitation;
+
+import "takasho/schema/common_featureset/resource/player_storage/v2.proto";
+import "takasho/schema/fes/resource/club_player_invitation/v1.proto";
+
+message ClubPlayerInvitationApprove {
+  message Request {
+    string invitation_id = 1;
+    uint64 frame = 2;
+  }
+  message Response {
+  }
+}
+message ClubPlayerInvitationCancel {
+  message Request {
+    string invitation_id = 1;
+  }
+  message Response {
+  }
+}
+message ClubPlayerInvitationCreate {
+  message Request {
+    string club_id = 1;
+    string player_id = 2;
+    repeated string player_storage_keys = 3;
+  }
+  message Response {
+    takasho.schema.fes.resource.club_player_invitation.v1.ClubPlayerInvitation invitation = 1;
+  }
+}
+message ClubPlayerInvitationGetMultiByClub {
+  message Request {
+    string club_id = 1;
+    repeated takasho.schema.common_featureset.resource.player_storage.v2.Criterion criteria = 2;
+    repeated string player_storage_keys = 3;
+  }
+  message Response {
+    repeated takasho.schema.fes.resource.club_player_invitation.v1.ClubPlayerInvitation invitations = 1;
+  }
+}
+message ClubPlayerInvitationGetMyInvitations {
+  message Request {
+    repeated takasho.schema.common_featureset.resource.player_storage.v2.Criterion criteria = 1;
+    repeated string player_storage_keys = 2;
+  }
+  message Response {
+    repeated takasho.schema.fes.resource.club_player_invitation.v1.ClubPlayerInvitation invitations = 1;
+  }
+}
+message ClubPlayerInvitationReject {
+  message Request {
+    string invitation_id = 1;
+  }
+  message Response {
+  }
+}
+message ClubPlayerInvitationRejectAll {
+  message Request {
+  }
+  message Response {
+  }
+}
+service ClubPlayerInvitation {
+  rpc Approve(ClubPlayerInvitationApprove.Request) returns (ClubPlayerInvitationApprove.Response) {}
+  rpc Cancel(ClubPlayerInvitationCancel.Request) returns (ClubPlayerInvitationCancel.Response) {}
+  rpc Create(ClubPlayerInvitationCreate.Request) returns (ClubPlayerInvitationCreate.Response) {}
+  rpc GetMultiByClub(ClubPlayerInvitationGetMultiByClub.Request) returns (ClubPlayerInvitationGetMultiByClub.Response) {}
+  rpc GetMyInvitations(ClubPlayerInvitationGetMyInvitations.Request) returns (ClubPlayerInvitationGetMyInvitations.Response) {}
+  rpc Reject(ClubPlayerInvitationReject.Request) returns (ClubPlayerInvitationReject.Response) {}
+  rpc RejectAll(ClubPlayerInvitationRejectAll.Request) returns (ClubPlayerInvitationRejectAll.Response) {}
+}

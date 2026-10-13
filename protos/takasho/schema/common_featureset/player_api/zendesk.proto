@@ -1,0 +1,58 @@
+syntax = "proto3";
+
+package takasho.schema.common_featureset.player_api;
+
+import "takasho/schema/common_featureset/resource/zendesk.proto";
+
+message ZendeskCreateAccountV1 {
+  message Request {
+  }
+  message Response {
+  }
+}
+message ZendeskCreateCommentV1 {
+  message Request {
+    string id = 1;
+    string body = 2;
+    repeated bytes attachments = 3;
+  }
+  message Response {
+    Request request = 1;
+  }
+}
+message ZendeskCreateRequestV1 {
+  message Request {
+    string subject = 1;
+    string description = 2;
+    sint64 form_id = 3;
+    string happened_date = 4;
+    string os_info = 5;
+    repeated bytes attachments = 6;
+  }
+  message Response {
+    Request request = 1;
+  }
+}
+message ZendeskListRequestV1 {
+  message Request {
+  }
+  message Response {
+    repeated Request requests = 1;
+  }
+}
+message ZendeskShowRequestV1 {
+  message Request {
+    string id = 1;
+  }
+  message Response {
+    Request request = 1;
+    repeated takasho.schema.common_featureset.resource.zendesk.Comment comments = 2;
+  }
+}
+service Zendesk {
+  rpc CreateAccountV1(ZendeskCreateAccountV1.Request) returns (ZendeskCreateAccountV1.Response) {}
+  rpc CreateCommentV1(ZendeskCreateCommentV1.Request) returns (ZendeskCreateCommentV1.Response) {}
+  rpc CreateRequestV1(ZendeskCreateRequestV1.Request) returns (ZendeskCreateRequestV1.Response) {}
+  rpc ListRequestV1(ZendeskListRequestV1.Request) returns (ZendeskListRequestV1.Response) {}
+  rpc ShowRequestV1(ZendeskShowRequestV1.Request) returns (ZendeskShowRequestV1.Response) {}
+}

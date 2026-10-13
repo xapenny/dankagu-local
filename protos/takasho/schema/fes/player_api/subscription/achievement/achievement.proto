@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package takasho.schema.fes.player_api.subscription.achievement;
+
+import "takasho/schema/common_featureset/resource/achievement/v1.proto";
+import "takasho/schema/common_featureset/resource/player_inventory/v1.proto";
+import "takasho/schema/fes/resource/subscription/achievement/v1.proto";
+
+message AchievementGetAvailableByIDsV1 {
+  message Request {
+    repeated string achievement_ids = 1;
+  }
+  message Response {
+    repeated takasho.schema.common_featureset.resource.achievement.v1.Achievement achievements = 1;
+  }
+}
+message AchievementGetAvailableV1 {
+  message Request {
+    takasho.schema.fes.resource.subscription.achievement.v1.AchievementCriterion criterion = 1;
+    string page_token = 2;
+    uint64 max_results = 3;
+  }
+  message Response {
+    repeated takasho.schema.common_featureset.resource.achievement.v1.Achievement achievements = 1;
+    string next_page_token = 2;
+    string prev_page_token = 3;
+  }
+}
+message AchievementUnlockV1 {
+  message Request {
+    repeated string achievement_ids = 1;
+  }
+  message Response {
+    repeated takasho.schema.common_featureset.resource.achievement.v1.Achievement achievements = 1;
+    repeated takasho.schema.common_featureset.resource.player_inventory.v1.PlayerInventory inventories = 2;
+  }
+}
+service Achievement {
+  rpc GetAvailableByIDsV1(AchievementGetAvailableByIDsV1.Request) returns (AchievementGetAvailableByIDsV1.Response) {}
+  rpc GetAvailableV1(AchievementGetAvailableV1.Request) returns (AchievementGetAvailableV1.Response) {}
+  rpc UnlockV1(AchievementUnlockV1.Request) returns (AchievementUnlockV1.Response) {}
+}

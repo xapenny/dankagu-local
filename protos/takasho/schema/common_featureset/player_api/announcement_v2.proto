@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package takasho.schema.common_featureset.player_api;
+
+message AnnouncementGetCredentialV1 {
+  message Request {
+  }
+  message Response {
+    string credential = 1;
+    string url = 2;
+  }
+}
+service AnnouncementV2 {
+  rpc GetCredentialV1(AnnouncementGetCredentialV1.Request) returns (AnnouncementGetCredentialV1.Response) {}
+}

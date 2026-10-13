@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package takasho.schema.common_featureset.resource.box_loot_box.v1;
+
+import "takasho/schema/common_featureset/resource/player_inventory/v1.proto";
+
+message BoxLootBoxContentWithPlayerRemainContent {
+  string box_loot_box_product_id = 1;
+  string box_loot_box_content_id = 2;
+  takasho.schema.common_featureset.resource.player_inventory.v1.ItemType item_type = 3;
+  string schema_key = 4;
+  bytes value = 5;
+  sint64 amount = 6;
+  sint64 player_remain_content_amount = 7;
+}

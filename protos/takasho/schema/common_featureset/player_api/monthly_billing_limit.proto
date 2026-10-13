@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package takasho.schema.common_featureset.player_api;
+
+import "takasho/schema/common_featureset/resource/monthly_billing_limit/v1.proto";
+
+message GetMonthlyBillingLimitV1 {
+  message Request {
+  }
+  message Response {
+    repeated takasho.schema.common_featureset.resource.monthly_billing_limit.v1.MonthlyBillingLimit monthly_billing_limits = 1;
+  }
+}
+message GetMonthlyVirtualCurrencyAmountV1 {
+  message Request {
+  }
+  message Response {
+    sint64 paid_virtual_currency_amount = 1;
+  }
+}
+service MonthlyBillingLimit {
+  rpc GetMonthlyBillingLimitV1(GetMonthlyBillingLimitV1.Request) returns (GetMonthlyBillingLimitV1.Response) {}
+  rpc GetMonthlyVirtualCurrencyAmountV1(GetMonthlyVirtualCurrencyAmountV1.Request) returns (GetMonthlyVirtualCurrencyAmountV1.Response) {}
+}

@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package takasho.schema.common_featureset.player_api.debug;
+
+message PlayerStorageCopyEntriesV1 {
+  message Request {
+    string src_player_short_id = 1;
+  }
+  message Response {
+  }
+}
+service PlayerStorage {
+  rpc CopyEntriesV1(PlayerStorageCopyEntriesV1.Request) returns (PlayerStorageCopyEntriesV1.Response) {}
+}
