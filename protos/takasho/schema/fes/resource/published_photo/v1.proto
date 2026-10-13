@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package takasho.schema.fes.resource.published_photo.v1;
+
+import "google/protobuf/timestamp.proto";
+
+enum PrivacyType {
+  PUBLIC = 0;
+  PROTECTED = 1;
+}
+
+message PublishedPhoto {
+  string photo_id = 1;
+  repeated string character_ids = 2;
+  google.protobuf.Timestamp created_at = 3;
+  int64 like_count = 4;
+  string category = 5;
+  bytes content_value = 6;
+  string original_url = 7;
+  string thumbnail_url = 8;
+  string player_id = 9;
+}

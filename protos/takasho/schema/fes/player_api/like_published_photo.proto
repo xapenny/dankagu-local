@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package takasho.schema.fes.player_api;
+
+message LikePublishedPhotoLikeV1 {
+  message Request {
+    string photo_id = 1;
+  }
+
+  message Response {
+    string photo_id = 1;
+  }
+}
+
+message LikePublishedPhotoDeleteLikeV1 {
+  message Request {
+    string photo_id = 1;
+  }
+
+  message Response {
+    string photo_id = 1;
+  }
+}
+
+service LikePublishedPhoto {
+  rpc LikeV1(LikePublishedPhotoLikeV1.Request) returns (LikePublishedPhotoLikeV1.Response) {}
+  rpc DeleteLikeV1(LikePublishedPhotoDeleteLikeV1.Request) returns (LikePublishedPhotoDeleteLikeV1.Response) {}
+}

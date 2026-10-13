@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package takasho.schema.fes.resource.my_space.v1;
+
+import "takasho/schema/common_featureset/resource/player_storage/v2.proto";
+
+message MySpaceLikePlayer {
+  string player_id = 1;
+  repeated takasho.schema.common_featureset.resource.player_storage.v2.Entry player_storage_entries = 2;
+  string nickname = 3;
+}
+
+message MySpaceLike {
+  MySpaceLikePlayer player = 1;
+  sint64 liked_at = 2;
+}

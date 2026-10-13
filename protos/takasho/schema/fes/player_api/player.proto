@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package takasho.schema.fes.player_api.player;
+
+import "takasho/schema/common_featureset/resource/player_storage/v2.proto";
+import "takasho/schema/fes/resource/player/v1.proto";
+
+message FesPlayerGetPlayerServiceV1 {
+  message Request {
+    string player_id = 1;
+    repeated takasho.schema.common_featureset.resource.player_storage.v2.Criterion criteria = 2;
+  }
+
+  message Response {
+    takasho.schema.fes.resource.player.v1.Player player = 1;
+  }
+}
+
+service FesPlayer {
+  rpc GetV1(FesPlayerGetPlayerServiceV1.Request) returns (FesPlayerGetPlayerServiceV1.Response) {}
+}

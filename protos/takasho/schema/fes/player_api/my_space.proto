@@ -1,0 +1,71 @@
+syntax = "proto3";
+
+package takasho.schema.fes.player_api;
+
+import "takasho/schema/fes/resource/my_space/v1.proto";
+
+message MySpaceDrawPlayerV1 {
+  message Request {}
+
+  message Response {
+    string player_id = 1;
+    string nickname = 2;
+  }
+}
+
+message MySpaceLikeV1 {
+  message Request {
+    string player_id = 1;
+  }
+
+  message Response {
+    string player_id = 1;
+  }
+}
+
+message MySpaceGetSentLikesHistoryV1 {
+  message Request {
+    repeated string player_storage_keys = 1;
+    string page_token = 2;
+    uint64 max_results = 3;
+  }
+
+  message Response {
+    repeated takasho.schema.fes.resource.my_space.v1.MySpaceLike likes = 1;
+    string next_page_token = 2;
+    string prev_page_token = 3;
+  }
+}
+
+message MySpaceGetReceivedLikesHistoryV1 {
+  message Request {
+    repeated string player_storage_keys = 1;
+    string page_token = 2;
+    uint64 max_results = 3;
+  }
+
+  message Response {
+    repeated takasho.schema.fes.resource.my_space.v1.MySpaceLike likes = 1;
+    string next_page_token = 2;
+    string prev_page_token = 3;
+  }
+}
+
+message MySpaceGetPlayerLikeStatusV1 {
+  message Request {
+    string player_id = 1;
+  }
+
+  message Response {
+    string player_id = 1;
+    bool is_liked = 2;
+  }
+}
+
+service MySpace {
+  rpc DrawPlayerV1(MySpaceDrawPlayerV1.Request) returns (MySpaceDrawPlayerV1.Response) {}
+  rpc LikeV1(MySpaceLikeV1.Request) returns (MySpaceLikeV1.Response) {}
+  rpc GetSentLikesHistoryV1(MySpaceGetSentLikesHistoryV1.Request) returns (MySpaceGetSentLikesHistoryV1.Response) {}
+  rpc GetReceivedLikesHistoryV1(MySpaceGetReceivedLikesHistoryV1.Request) returns (MySpaceGetReceivedLikesHistoryV1.Response) {}
+  rpc GetPlayerLikeStatusV1(MySpaceGetPlayerLikeStatusV1.Request) returns (MySpaceGetPlayerLikeStatusV1.Response) {}
+}
