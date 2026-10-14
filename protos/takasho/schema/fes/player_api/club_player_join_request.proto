@@ -1,0 +1,88 @@
+syntax = "proto3";
+
+package takasho.schema.fes.player_api.club_player_join_request;
+
+import "takasho/schema/common_featureset/resource/player_storage/v2.proto";
+import "takasho/schema/fes/resource/club/v1.proto";
+import "takasho/schema/fes/resource/club_player_join_request/v1.proto";
+import "takasho/schema/fes/resource/club_storage/v1.proto";
+
+// Reconstructed from the il2cpp dump (the reference repository ships no proto for this
+// service).
+message ClubPlayerJoinRequestCreate {
+  message Request {
+    string club_id = 1;
+    uint64 frame = 2;
+  }
+
+  message Response {
+    takasho.schema.fes.resource.club_player_join_request.v1.ClubPlayerJoinRequest request = 1;
+  }
+}
+
+message ClubPlayerJoinRequestGetMultiByClub {
+  message Request {
+    string club_id = 1;
+    repeated string player_storage_keys = 2;
+  }
+
+  message Response {
+    repeated takasho.schema.fes.resource.club_player_join_request.v1.ClubPlayerJoinRequest requests = 1;
+  }
+}
+
+message ClubPlayerJoinRequestGetMyRequests {
+  message Request {
+    repeated takasho.schema.fes.resource.club_storage.v1.Criterion criteria = 1;
+  }
+
+  message Response {
+    repeated takasho.schema.fes.resource.club_player_join_request.v1.ClubPlayerJoinRequest requests = 1;
+  }
+}
+
+message ClubPlayerJoinRequestApprove {
+  message Request {
+    string request_id = 1;
+  }
+
+  message Response {
+    string request_id = 1;
+  }
+}
+
+message ClubPlayerJoinRequestReject {
+  message Request {
+    string request_id = 1;
+  }
+
+  message Response {
+    string club_id = 1;
+  }
+}
+
+message ClubPlayerJoinRequestCancel {
+  message Request {
+    string request_id = 1;
+  }
+
+  message Response {}
+}
+
+message ClubPlayerJoinRequestRejectAll {
+  message Request {
+    string club_id = 1;
+  }
+
+  message Response {}
+}
+
+service ClubPlayerJoinRequest {
+  rpc Create(ClubPlayerJoinRequestCreate.Request) returns (ClubPlayerJoinRequestCreate.Response) {}
+  rpc GetMultiByClub(ClubPlayerJoinRequestGetMultiByClub.Request) returns (ClubPlayerJoinRequestGetMultiByClub.Response) {}
+  rpc GetMyRequests(ClubPlayerJoinRequestGetMyRequests.Request) returns (ClubPlayerJoinRequestGetMyRequests.Response) {}
+  rpc Approve(ClubPlayerJoinRequestApprove.Request) returns (ClubPlayerJoinRequestApprove.Response) {}
+  rpc Reject(ClubPlayerJoinRequestReject.Request) returns (ClubPlayerJoinRequestReject.Response) {}
+  rpc Cancel(ClubPlayerJoinRequestCancel.Request) returns (ClubPlayerJoinRequestCancel.Response) {}
+  rpc RejectAll(ClubPlayerJoinRequestRejectAll.Request) returns (ClubPlayerJoinRequestRejectAll.Response) {}
+}

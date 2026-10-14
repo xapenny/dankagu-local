@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package takasho.schema.fes.resource.club_player_join_request.v1;
+
+import "takasho/schema/common_featureset/resource/player_storage/v2.proto";
+import "takasho/schema/fes/resource/club/v1.proto";
+
+// Reconstructed from the il2cpp dump: the reference repository ships no proto for join
+// requests. The message carries the club being asked to join plus the requester's profile,
+// which is what the club screen lists before a leader approves or rejects it.
+message ClubPlayerJoinRequest {
+  string request_id = 1;
+  takasho.schema.fes.resource.club.v1.Club club = 2;
+  repeated takasho.schema.common_featureset.resource.player_storage.v2.Entry player_storage_entries = 3;
+  string player_id = 4;
+  string nickname = 5;
+  int64 requested_at = 6;
+  uint64 frame = 7;
+  uint64 club_players_count = 8;
+}
