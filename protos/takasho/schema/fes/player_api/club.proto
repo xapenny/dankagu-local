@@ -1,0 +1,121 @@
+syntax = "proto3";
+
+package takasho.schema.fes.player_api.club;
+
+import "takasho/schema/common_featureset/resource/player_storage/v2.proto";
+import "takasho/schema/fes/resource/club/v1.proto";
+import "takasho/schema/fes/resource/club_preference/v1.proto";
+import "takasho/schema/fes/resource/club_storage/v1.proto";
+
+// Reconstructed from the il2cpp dump: the client's ClubSearch* messages order by this enum
+// (Asc = 0, Desc = 1).
+enum SearchOrderDirection {
+  ASC = 0;
+  DESC = 1;
+}
+
+message SearchResult {
+  takasho.schema.fes.resource.club.v1.Club club = 1;
+  int64 member_count = 2;
+}
+
+message ClubCreate {
+  message Request {
+    uint64 frame = 1;
+    takasho.schema.fes.resource.club_preference.v1.ClubPreference preference = 2;
+    string revision = 3;
+    repeated takasho.schema.fes.resource.club_storage.v1.ClubStorageEntry entries = 4;
+    repeated takasho.schema.common_featureset.resource.player_storage.v2.Entry player_storage_entries = 5;
+    string player_storage_next_revision = 6;
+    string player_storage_previous_revision = 7;
+  }
+
+  message Response {
+    takasho.schema.fes.resource.club.v1.Club club = 1;
+    string club_storage_revision = 2;
+    repeated takasho.schema.common_featureset.resource.player_storage.v2.Entry player_storage_entries = 3;
+    string player_storage_revision = 4;
+  }
+}
+
+message ClubGetByIDs {
+  message Request {
+    repeated string club_ids = 1;
+    repeated takasho.schema.fes.resource.club_storage.v1.Criterion criteria = 2;
+  }
+
+  message Response {
+    repeated takasho.schema.fes.resource.club.v1.Club clubs = 1;
+  }
+}
+
+message ClubSearch {
+  message Criterion {
+    takasho.schema.fes.resource.club_preference.v1.ClubPreference.ApprovalPolicy approval_policy = 1;
+    takasho.schema.fes.resource.club_preference.v1.ClubPreference.PlayStyle play_style = 2;
+    repeated takasho.schema.fes.resource.club_preference.v1.ClubPreference.PlayStyle play_styles = 3;
+  }
+
+  message Request {
+    Criterion criterion = 1;
+    repeated takasho.schema.fes.resource.club_storage.v1.Criterion criteria = 2;
+    SearchOrderDirection order_direction = 3;
+    string page_token = 4;
+    uint64 max_results = 5;
+  }
+
+  message Response {
+    repeated SearchResult search_results = 1;
+    string next_page_token = 2;
+  }
+}
+
+message ClubSearchByCharacterIDs {
+  message Request {
+    repeated string character_ids = 1;
+    repeated takasho.schema.fes.resource.club_storage.v1.Criterion criteria = 2;
+    SearchOrderDirection order_direction = 3;
+    string page_token = 4;
+    uint64 max_results = 5;
+  }
+
+  message Response {
+    repeated SearchResult search_results = 1;
+    string next_page_token = 2;
+  }
+}
+
+message ClubSearchByName {
+  message Request {
+    string text = 1;
+    repeated takasho.schema.fes.resource.club_storage.v1.Criterion criteria = 2;
+    SearchOrderDirection order_direction = 3;
+    string page_token = 4;
+    uint64 max_results = 5;
+  }
+
+  message Response {
+    repeated SearchResult search_results = 1;
+    string next_page_token = 2;
+  }
+}
+
+message ClubSetPreference {
+  message Request {
+    string club_id = 1;
+    takasho.schema.fes.resource.club_preference.v1.ClubPreference preference = 2;
+  }
+
+  message Response {
+    takasho.schema.fes.resource.club_preference.v1.ClubPreference preference = 1;
+  }
+}
+
+service Club {
+  rpc Create(ClubCreate.Request) returns (ClubCreate.Response) {}
+  rpc GetByIDs(ClubGetByIDs.Request) returns (ClubGetByIDs.Response) {}
+  rpc Search(ClubSearch.Request) returns (ClubSearch.Response) {}
+  rpc SearchByCharacterIDs(ClubSearchByCharacterIDs.Request) returns (ClubSearchByCharacterIDs.Response) {}
+  rpc SearchByName(ClubSearchByName.Request) returns (ClubSearchByName.Response) {}
+  rpc SetPreference(ClubSetPreference.Request) returns (ClubSetPreference.Response) {}
+}

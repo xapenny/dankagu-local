@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package takasho.schema.fes.resource.ranking.v1;
+
+message RankingEvent {
+  enum Status {
+    UNSPECIFIED = 0;
+    OPEN = 1;
+    FINISHED = 2;
+    CLOSED = 3;
+  }
+  string id = 1;
+  sint64 opened_at = 2;
+  sint64 finished_at = 3;
+  sint64 closed_at = 4;
+  Status status = 5;
+}
+
+message PlayerRankInfo {
+  string ranking_event_id = 1;
+  string player_id = 2;
+  int64 rank = 3;
+  int64 score = 4;
+  string nickname = 5;
+}
