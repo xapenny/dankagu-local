@@ -1,0 +1,63 @@
+syntax = "proto3";
+
+package takasho.schema.fes.resource.box_loot_box.v1;
+
+import "takasho/schema/common_featureset/resource/consume_resource_set/v1.proto";
+import "takasho/schema/common_featureset/resource/player_inventory/v1.proto";
+
+message BoxLootBoxProduct {
+  string box_loot_box_product_id = 1;
+  sint64 opened_at = 2;
+  sint64 closed_at = 3;
+  repeated BoxLootBoxBox box_loot_box_boxes = 4;
+  sint64 box_num = 5;
+  sint64 total_box_num = 6;
+}
+
+message BoxLootBoxBox {
+  sint64 box_loot_box_box_num = 1;
+  string inventory_message = 2;
+  sint64 total_content_num = 3;
+  sint64 remain_content_num = 4;
+  repeated BoxLootBoxContent box_loot_box_contents = 5;
+  bool has_pickup = 6;
+  BoxLootBoxPickup pickup = 7;
+  bool has_extra = 8;
+  repeated Extra extras = 9;
+  bool is_repeat = 10;
+  repeated takasho.schema.common_featureset.resource.consume_resource_set.v1.ConsumeResourceSet consume_resource_sets = 11;
+}
+
+message BoxLootBoxContent {
+  string box_loot_box_content_id = 1;
+  takasho.schema.common_featureset.resource.player_inventory.v1.ItemType item_type = 3;
+  string schema_key = 4;
+  bytes value = 5;
+  sint64 amount = 6;
+  string resource_name = 7;
+  sint64 resource_num = 8;
+  sint64 remain_amount = 9;
+  string search_label = 10;
+}
+
+message Extra {
+  string box_loot_box_extra_id = 1;
+  string inventory_message = 2;
+  takasho.schema.common_featureset.resource.player_inventory.v1.ItemType item_type = 3;
+  string schema_key = 4;
+  bytes value = 5;
+  string resource_name = 6;
+  sint64 resource_num = 7;
+  string search_label = 8;
+}
+
+message BoxLootBoxPickup {
+  enum ConditionOperator {
+    And = 0;
+    Or = 1;
+  }
+
+  string box_loot_box_pickup_id = 1;
+  ConditionOperator condition_operator = 2;
+  repeated BoxLootBoxContent pickup_contents = 3;
+}

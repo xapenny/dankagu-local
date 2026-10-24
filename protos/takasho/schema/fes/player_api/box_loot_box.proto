@@ -1,0 +1,71 @@
+syntax = "proto3";
+
+package takasho.schema.fes.player_api;
+
+import "takasho/schema/common_featureset/resource/player_event_log/v1.proto";
+import "takasho/schema/common_featureset/resource/player_inventory/v1.proto";
+import "takasho/schema/common_featureset/resource/wallet/v3.proto";
+import "takasho/schema/fes/resource/box_loot_box/v1.proto";
+
+message BoxLootBoxV1GetAvailableV1 {
+  message Request {
+  }
+
+  message Response {
+    repeated takasho.schema.fes.resource.box_loot_box.v1.BoxLootBoxProduct box_loot_box_products = 1;
+  }
+}
+
+message BoxLootBoxV1GetDetailV1 {
+  message Request {
+    repeated string box_loot_box_product_ids = 1;
+  }
+
+  message Response {
+    repeated takasho.schema.fes.resource.box_loot_box.v1.BoxLootBoxProduct box_loot_box_products = 1;
+  }
+}
+
+message BoxLootBoxV1PurchaseV1 {
+  message Request {
+    enum ResourceType {
+      VirtualCurrency = 0;
+      PlayerKeyValue = 1;
+    }
+
+    string box_loot_box_product_id = 1;
+    string transaction_id = 2;
+    sint32 num = 3;
+    ResourceType resource_type = 4;
+    repeated takasho.schema.common_featureset.resource.player_event_log.v1.PlayerEventLog player_event_logs = 5;
+  }
+
+  message Response {
+    string transaction_id = 1;
+    repeated takasho.schema.fes.resource.box_loot_box.v1.BoxLootBoxContent box_loot_box_contents = 2;
+    repeated takasho.schema.common_featureset.resource.player_inventory.v1.PlayerInventory player_inventories = 3;
+    repeated takasho.schema.common_featureset.resource.player_inventory.v1.PlayerInventory extra_player_inventories = 4;
+    sint64 remain_num = 5;
+    bool can_reset = 6;
+    takasho.schema.common_featureset.resource.wallet.v3.Wallet wallet = 7;
+  }
+}
+
+message BoxLootBoxV1ResetV1 {
+  message Request {
+    string box_loot_box_product_id = 1;
+    repeated takasho.schema.common_featureset.resource.player_event_log.v1.PlayerEventLog player_event_logs = 2;
+    string transaction_id = 3;
+  }
+
+  message Response {
+    takasho.schema.fes.resource.box_loot_box.v1.BoxLootBoxBox box_loot_box = 1;
+  }
+}
+
+service BoxLootBox {
+  rpc GetAvailableV1(BoxLootBoxV1GetAvailableV1.Request) returns (BoxLootBoxV1GetAvailableV1.Response);
+  rpc GetDetailV1(BoxLootBoxV1GetDetailV1.Request) returns (BoxLootBoxV1GetDetailV1.Response);
+  rpc PurchaseV1(BoxLootBoxV1PurchaseV1.Request) returns (BoxLootBoxV1PurchaseV1.Response);
+  rpc ResetV1(BoxLootBoxV1ResetV1.Request) returns (BoxLootBoxV1ResetV1.Response);
+}

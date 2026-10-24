@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package takasho.schema.fes.resource.club_space_storage.v1;
+
+message ClubSpaceStorageEntry {
+  string club_id = 1;
+  string key = 2;
+  bytes value = 3;
+}
+
+message ClubSpaceStorageStatusPlayer {
+  string player_id = 1;
+  string nickname = 2;
+}
+
+message ClubSpaceStorageStatus {
+  bool locked = 1;
+  ClubSpaceStorageStatusPlayer locked_by = 2;
+  int64 unlocked_at = 3;
+}
+
+message Criterion {
+  enum MatchingType {
+    EXACT = 0;
+    FORWARD = 1;
+  }
+
+  string key = 1;
+  MatchingType matching_type = 2;
+}

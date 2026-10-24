@@ -1,0 +1,76 @@
+syntax = "proto3";
+
+package takasho.schema.fes.player_api.club_space_storage;
+
+import "takasho/schema/common_featureset/resource/player_event_log/v1.proto";
+import "takasho/schema/fes/resource/club_space_storage/v1.proto";
+
+message ClubSpaceStorageGetMulti {
+  message Request {
+    string club_id = 1;
+    repeated takasho.schema.fes.resource.club_space_storage.v1.Criterion criteria = 2;
+  }
+
+  message Response {
+    string revision = 1;
+    repeated takasho.schema.fes.resource.club_space_storage.v1.ClubSpaceStorageEntry entries = 2;
+  }
+}
+
+message ClubSpaceStorageGetMultiWithLock {
+  message Request {
+    string club_id = 1;
+    uint64 ttl = 2;
+    repeated takasho.schema.fes.resource.club_space_storage.v1.Criterion criteria = 3;
+  }
+
+  message Response {
+    string revision = 1;
+    repeated takasho.schema.fes.resource.club_space_storage.v1.ClubSpaceStorageEntry entries = 2;
+    takasho.schema.fes.resource.club_space_storage.v1.ClubSpaceStorageStatus status = 3;
+  }
+}
+
+message ClubSpaceStorageSetMulti {
+  message Request {
+    string club_id = 1;
+    string prev_revision = 2;
+    string next_revision = 3;
+    repeated takasho.schema.fes.resource.club_space_storage.v1.ClubSpaceStorageEntry entries = 4;
+    repeated takasho.schema.common_featureset.resource.player_event_log.v1.PlayerEventLog player_event_logs = 5;
+  }
+
+  message Response {
+    string revision = 1;
+    repeated takasho.schema.fes.resource.club_space_storage.v1.ClubSpaceStorageEntry entries = 2;
+  }
+}
+
+message ClubSpaceStorageUnlock {
+  message Request {
+    string club_id = 1;
+  }
+
+  message Response {
+    takasho.schema.fes.resource.club_space_storage.v1.ClubSpaceStorageStatus status = 1;
+  }
+}
+
+message ClubSpaceStorageExtendLock {
+  message Request {
+    string club_id = 1;
+    uint64 ttl = 2;
+  }
+
+  message Response {
+    takasho.schema.fes.resource.club_space_storage.v1.ClubSpaceStorageStatus status = 1;
+  }
+}
+
+service ClubSpaceStorage {
+  rpc GetMulti(ClubSpaceStorageGetMulti.Request) returns (ClubSpaceStorageGetMulti.Response);
+  rpc GetMultiWithLock(ClubSpaceStorageGetMultiWithLock.Request) returns (ClubSpaceStorageGetMultiWithLock.Response);
+  rpc SetMulti(ClubSpaceStorageSetMulti.Request) returns (ClubSpaceStorageSetMulti.Response);
+  rpc Unlock(ClubSpaceStorageUnlock.Request) returns (ClubSpaceStorageUnlock.Response);
+  rpc ExtendLock(ClubSpaceStorageExtendLock.Request) returns (ClubSpaceStorageExtendLock.Response);
+}
