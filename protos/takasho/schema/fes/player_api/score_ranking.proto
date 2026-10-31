@@ -14,8 +14,8 @@ message ScoreRankingGetAvailableV1 {
 
 message ScoreRankingGetGrandPrixLeaderBoardV1 {
   message Request {
-    sint64 start = 1;
-    sint64 count = 2;
+    int64 start = 1;
+    int64 count = 2;
     repeated string player_storage_keys = 3;
   }
 
@@ -27,8 +27,8 @@ message ScoreRankingGetGrandPrixLeaderBoardV1 {
 
 message ScoreRankingGetClassGroupLeaderBoardV1 {
   message Request {
-    sint64 start = 1;
-    sint64 count = 2;
+    int64 start = 1;
+    int64 count = 2;
     repeated string player_storage_keys = 3;
   }
 
@@ -72,12 +72,12 @@ message ScoreRankingGetClassV1 {
 
 message ScoreRankingRegisterV1 {
   message Request {
-    sint64 score = 1;
+    int64 score = 1;
   }
 
   message Response {
-    sint64 score = 1;
-    sint64 rank = 2;
+    int64 score = 1;
+    int64 rank = 2;
   }
 }
 
@@ -93,7 +93,7 @@ message ScoreRankingReceiveGrandPrixPrizeV1 {
   message Request {}
 
   message Response {
-    sint64 rank = 1;
+    int64 rank = 1;
     repeated takasho.schema.common_featureset.resource.player_inventory.v1.PlayerInventory inventories = 2;
   }
 }
@@ -114,8 +114,8 @@ message ScoreRankingGetClassGroupElevatingRankV1 {
   }
 
   message Response {
-    sint64 promotion_rank = 1;
-    sint64 demotion_rank = 2;
+    int64 promotion_rank = 1;
+    int64 demotion_rank = 2;
   }
 }
 

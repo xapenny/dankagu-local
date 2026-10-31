@@ -17,8 +17,8 @@ message RegularRankingRegisterV1 {
 message RegularRankingGetTopRankingV1 {
   message Request {
     string ranking_key = 1;
-    sint64 start = 2;
-    sint64 count = 3;
+    int64 start = 2;
+    int64 count = 3;
   }
 
   message Response {
